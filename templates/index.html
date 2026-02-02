@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jednostavna Aplikacija</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, button { padding: 10px; font-size: 16px; }
+        #response { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Pošalji poruku serveru</h1>
+    <input type="text" id="messageInput" placeholder="Upiši poruku..." />
+    <button onclick="sendMessage()">Pošalji</button>
+
+    <div id="response"></div>
+
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            const res = await fetch('/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+            const data = await res.json();
+            document.getElementById('response').innerText = data.response;
+        }
+    </script>
+</body>
+</html>
